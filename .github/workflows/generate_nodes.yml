@@ -14,7 +14,7 @@ on:
         required: false
         default: 'true'
   schedule:
-    - cron: '0 0,12 * * *' # 每天 UTC 00:00 和 12:00 运行
+    - cron: '*/45 * * * *'
 
 jobs:
   generate-nodes-list:
