@@ -313,9 +313,12 @@ def decode_and_extract_nodes(sub_type, content):
             clash_config = yaml.safe_load(content_to_process)
             if clash_config and "proxies" in clash_config:
                 for proxy in clash_config["proxies"]:
-                    node_url = convert_clash_proxy_to_url(proxy)
-                    if node_url and not filter_node_url(node_url):  # 再次过滤转换后的节点
-                        nodes.append(node_url)
+                    if isinstance(proxy, dict):  # 只处理字典类型
+                        node_url = convert_clash_proxy_to_url(proxy)
+                        if node_url and not filter_node_url(node_url):  # 再次过滤转换后的节点
+                            nodes.append(node_url)
+                    else:
+                        logger.warning(f"跳过非字典类型的clash代理: {proxy}")
         except yaml.YAMLError as e:
             logger.warning(f"解析 Clash 配置失败: {e}")
     else:
