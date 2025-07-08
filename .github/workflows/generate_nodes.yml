@@ -1,4 +1,4 @@
-
+#https://github.com/mariahlamb/proxy-sub
 name: generate_nodes
 
 on:
@@ -89,6 +89,10 @@ jobs:
       - name: 合并并 base64 编码所有节点到 all.txt
         run: |
           cat output/all_nodes_*.txt | base64 > output/all.txt
+
+      - name: 节点测速并生成 xr.txt
+        run: |
+          python speedtest_and_filter.py
 
       - name: 验证输出文件
         run: |
