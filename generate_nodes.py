@@ -471,6 +471,17 @@ def main():
         return
 
     contents = asyncio.run(fetch_all_urls(valid_urls))
+
+    # 新增：记录 fetch 失败的订阅链接
+    failed_urls = [url for url, content in zip(valid_urls, contents) if not content]
+    if failed_urls:
+        logger.info(f"以下订阅链接获取失败，将从订阅源文档中删除：\n" + "\n".join(failed_urls))
+        # 只保留未失败的链接，写回订阅源文件
+        valid_urls_after_removal = [url for url in valid_urls if url not in failed_urls]
+        with open(args.input, 'w', encoding='utf-8') as f:
+            for url in valid_urls_after_removal:
+                f.write(url + '\n')
+        logger.info(f"已从 {args.input} 移除无效订阅链接，共 {len(failed_urls)} 条。")
     
     all_nodes = []
     total_stats = {'total': 0, 'failed': 0, 'unique': 0, 'by_protocol': {}}
