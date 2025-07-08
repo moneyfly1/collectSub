@@ -12,6 +12,7 @@ from tqdm import tqdm
 from urllib.parse import urlparse, parse_qs, unquote
 from functools import lru_cache
 from abc import ABC, abstractmethod
+import ipaddress
 
 # 配置日志
 logging.basicConfig(
@@ -21,130 +22,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# 节点过滤工具函数
-import ipaddress
-from urllib.parse import urlparse
-
-def is_ip_address(server: str) -> bool:
-    try:
-        ipaddress.ip_address(server.strip('[]'))
-        return True
-    except Exception:
-        return False
-
-def is_cloudflare_http_node(node: ParsedNodeInfo) -> bool:
-    cf_keywords = ["cloudflare.com", ".cloudflare-"]
-    if any(kw in node.server for kw in cf_keywords):
-        if node.protocol in ["http", "https"] and node.port in [80, 443]:
-            return True
-    return False
-
-def is_filtered_port(port: int) -> bool:
-    filtered_ports = [80, 8080, 8880, 2052, 2082, 2086, 2095, 443, 2053, 2083, 2087, 2096, 8443]
-    return port in filtered_ports
-
-def filter_node_url(node: ParsedNodeInfo) -> bool:
-    if is_ip_address(node.server):
-        return True
-    if is_cloudflare_http_node(node):
-        return True
-    if is_filtered_port(node.port):
-        return True
-    return False
-
-def filter_nodes_from_list(nodes: List[ParsedNodeInfo]) -> List[ParsedNodeInfo]:
-    return [node for node in nodes if not filter_node_url(node)]
-
-def parse_args() -> argparse.Namespace:
-    """解析命令行参数。"""
-    parser = argparse.ArgumentParser(description='提取订阅节点并分批输出')
-    parser.add_argument('--input', default='sub/sub_all_url_check.txt', help='订阅文件路径')
-    parser.add_argument('--output_prefix', default='output/all_nodes', help='输出节点文件的前缀')
-    parser.add_argument('--chunk_size', type=int, default=300, help='每个输出文件的节点数量')
-    parser.add_argument(
-        '--strict_dedup',
-        action='store_true',
-        default=True,
-        help='启用严格去重模式（考虑 network 和 security_method 字段）'
-    )
-    return parser.parse_args()
-
-def is_valid_url(url: str) -> bool:
-    """检查给定的字符串是否是有效的 URL。"""
-    try:
-        result = urlparse(url)
-        return all([result.scheme in ['http', 'https'], result.netloc])
-    except ValueError:
-        return False
-
-def normalize_server(server: str) -> str:
-    """规范化服务器地址（小写，移除无效字符）。"""
-    return re.sub(r'[^a-zA-Z0-9.-:[\]]', '', server.lower())
-
-def normalize_ipv6_url(url: str) -> str:
-    """规范化 IPv6 URL，确保地址正确括在方括号中。"""
-    try:
-        parsed = urlparse(url)
-        if ':' in parsed.netloc and not parsed.netloc.startswith('['):
-            # 提取主机和端口
-            netloc = parsed.netloc
-            user_info = ''
-            if '@' in netloc:
-                user_info, netloc = netloc.split('@', 1)
-            host, port = netloc, ''
-            if ':' in netloc and not netloc.endswith(']'):
-                host, port = netloc.rsplit(':', 1)
-            if ':' in host and not host.startswith('['):
-                host = f'[{host}]'
-            new_netloc = f'{user_info}@{host}' if user_info else host
-            if port:
-                new_netloc += f':{port}'
-            # 重构 URL
-            return parsed._replace(netloc=new_netloc).geturl()
-        return url
-    except Exception:
-        return url
-
-def read_subscriptions(file_path: str) -> List[str]:
-    """从文件中读取订阅 URL 列表。"""
-    if not os.path.exists(file_path):
-        logger.warning(f'未找到 {file_path} 文件，跳过生成步骤。')
-        return []
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            return [url.strip() for url in f.readlines() if url.strip()]
-    except Exception as e:
-        logger.error(f'读取文件 {file_path} 失败: {e}')
-        return []
-
-def write_nodes_in_chunks(nodes: List[str], output_prefix: str, chunk_size: int) -> None:
-    """将节点列表分批写入多个文件。"""
-    if not nodes:
-        logger.info("没有节点可写入。")
-        return
-
-    output_dir = os.path.dirname(output_prefix)
-    if output_dir and not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-        logger.info(f"已创建输出目录: {os.path.abspath(output_dir)}")
-
-    total_chunks = (len(nodes) + chunk_size - 1) // chunk_size
-    logger.info(f"总共有 {len(nodes)} 个节点，将分 {total_chunks} 个文件输出 (每文件 {chunk_size} 个节点)。")
-
-    for i in range(total_chunks):
-        start_index = i * chunk_size
-        end_index = min((i + 1) * chunk_size, len(nodes))
-        chunk = nodes[start_index:end_index]
-        file_name = f"{output_prefix}_{i+1:03d}.txt"
-        
-        try:
-            with open(file_name, 'w', encoding='utf-8') as f:
-                for node in chunk:
-                    f.write(f'{node}\n')
-            logger.info(f'节点信息已写入到：{os.path.abspath(file_name)} (包含 {len(chunk)} 条节点)')
-        except IOError as e:
-            logger.error(f"写入文件 {file_name} 失败: {e}")
-
+# 1. 类型定义和解析器
 @dataclasses.dataclass(frozen=True)
 class ParsedNodeInfo:
     """标准化解析后的节点信息，用于语义去重。"""
@@ -363,6 +241,40 @@ def get_parsers() -> List[Type[NodeParser]]:
         HysteriaNodeParser
     ]
 
+# 2. 过滤相关函数
+
+def is_ip_address(server: str) -> bool:
+    try:
+        ipaddress.ip_address(server.strip('[]'))
+        return True
+    except Exception:
+        return False
+
+def is_cloudflare_http_node(node: ParsedNodeInfo) -> bool:
+    cf_keywords = ["cloudflare.com", ".cloudflare-"]
+    if any(kw in node.server for kw in cf_keywords):
+        if node.protocol in ["http", "https"] and node.port in [80, 443]:
+            return True
+    return False
+
+def is_filtered_port(port: int) -> bool:
+    filtered_ports = [80, 8080, 8880, 2052, 2082, 2086, 2095, 443, 2053, 2083, 2087, 2096, 8443]
+    return port in filtered_ports
+
+def filter_node_url(node: ParsedNodeInfo) -> bool:
+    if is_ip_address(node.server):
+        return True
+    if is_cloudflare_http_node(node):
+        return True
+    if is_filtered_port(node.port):
+        return True
+    return False
+
+def filter_nodes_from_list(nodes: List[ParsedNodeInfo]) -> List[ParsedNodeInfo]:
+    return [node for node in nodes if not filter_node_url(node)]
+
+# 3. 其它工具函数和主流程
+
 def extract_nodes(text: str, strict_dedup: bool = True) -> Tuple[List[str], Dict[str, int]]:
     """
     从文本中提取有效节点，并进行语义去重。
@@ -455,6 +367,56 @@ async def fetch_all_urls(urls: List[str], max_concurrent: int = 10) -> List[Opti
             result = await coro
             results.append(result)
     return results
+
+def normalize_server(server: str) -> str:
+    """规范化服务器地址（小写，移除无效字符）。"""
+    return re.sub(r'[^a-zA-Z0-9.-:[\]]', '', server.lower())
+
+def normalize_ipv6_url(url: str) -> str:
+    """规范化 IPv6 URL，确保地址正确括在方括号中。"""
+    try:
+        parsed = urlparse(url)
+        if ':' in parsed.netloc and not parsed.netloc.startswith('['):
+            # 提取主机和端口
+            netloc = parsed.netloc
+            user_info = ''
+            if '@' in netloc:
+                user_info, netloc = netloc.split('@', 1)
+            host, port = netloc, ''
+            if ':' in netloc and not netloc.endswith(']'):
+                host, port = netloc.rsplit(':', 1)
+            if ':' in host and not host.startswith('['):
+                host = f'[{host}]'
+            new_netloc = f'{user_info}@{host}' if user_info else host
+            if port:
+                new_netloc += f':{port}'
+            # 重构 URL
+            return parsed._replace(netloc=new_netloc).geturl()
+        return url
+    except Exception:
+        return url
+
+def parse_args() -> argparse.Namespace:
+    """解析命令行参数。"""
+    parser = argparse.ArgumentParser(description='提取订阅节点并分批输出')
+    parser.add_argument('--input', default='sub/sub_all_url_check.txt', help='订阅文件路径')
+    parser.add_argument('--output_prefix', default='output/all_nodes', help='输出节点文件的前缀')
+    parser.add_argument('--chunk_size', type=int, default=300, help='每个输出文件的节点数量')
+    parser.add_argument(
+        '--strict_dedup',
+        action='store_true',
+        default=True,
+        help='启用严格去重模式（考虑 network 和 security_method 字段）'
+    )
+    return parser.parse_args()
+
+def is_valid_url(url: str) -> bool:
+    """检查给定的字符串是否是有效的 URL。"""
+    try:
+        result = urlparse(url)
+        return all([result.scheme in ['http', 'https'], result.netloc])
+    except ValueError:
+        return False
 
 def main():
     """主函数，执行订阅节点提取和分批输出的整个流程。"""
