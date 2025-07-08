@@ -396,6 +396,45 @@ def normalize_ipv6_url(url: str) -> str:
     except Exception:
         return url
 
+def read_subscriptions(file_path: str) -> List[str]:
+    """从文件中读取订阅 URL 列表。"""
+    if not os.path.exists(file_path):
+        logger.warning(f'未找到 {file_path} 文件，跳过生成步骤。')
+        return []
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return [url.strip() for url in f.readlines() if url.strip()]
+    except Exception as e:
+        logger.error(f'读取文件 {file_path} 失败: {e}')
+        return []
+
+def write_nodes_in_chunks(nodes: List[str], output_prefix: str, chunk_size: int) -> None:
+    """将节点列表分批写入多个文件。"""
+    if not nodes:
+        logger.info("没有节点可写入。")
+        return
+
+    output_dir = os.path.dirname(output_prefix)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+        logger.info(f"已创建输出目录: {os.path.abspath(output_dir)}")
+
+    total_chunks = (len(nodes) + chunk_size - 1) // chunk_size
+    logger.info(f"总共有 {len(nodes)} 个节点，将分 {total_chunks} 个文件输出 (每文件 {chunk_size} 个节点)。")
+
+    for i in range(total_chunks):
+        start_index = i * chunk_size
+        end_index = min((i + 1) * chunk_size, len(nodes))
+        chunk = nodes[start_index:end_index]
+        file_name = f"{output_prefix}_{i+1:03d}.txt"
+        try:
+            with open(file_name, 'w', encoding='utf-8') as f:
+                for node in chunk:
+                    f.write(f'{node}\n')
+            logger.info(f'节点信息已写入到：{os.path.abspath(file_name)} (包含 {len(chunk)} 条节点)')
+        except IOError as e:
+            logger.error(f"写入文件 {file_name} 失败: {e}")
+
 def parse_args() -> argparse.Namespace:
     """解析命令行参数。"""
     parser = argparse.ArgumentParser(description='提取订阅节点并分批输出')
