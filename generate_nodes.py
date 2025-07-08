@@ -365,7 +365,39 @@ def extract_nodes(text: str, strict_dedup: bool = True) -> Tuple[List[str], Dict
     deduplicated_nodes: List[ParsedNodeInfo] = []
     seen_keys: Set[Tuple] = set()
 
+    def is_ip_address(server: str) -> bool:
+        import ipaddress
+        try:
+            # 过滤IPv4和IPv6
+            ipaddress.ip_address(server.strip('[]'))
+            return True
+        except Exception:
+            return False
+
+    def is_cloudflare_http_node(node: ParsedNodeInfo) -> bool:
+        # Cloudflare 域名常见写法
+        cf_keywords = ["cloudflare.com", ".cloudflare-"]
+        if any(kw in node.server for kw in cf_keywords):
+            if node.protocol in ["http", "https"] and node.port in [80, 443]:
+                return True
+        # 也有部分节点直接用cloudflare的IP段，这里不处理
+        return False
+
+    def is_filtered_port(port: int) -> bool:
+        # 需要过滤的端口列表
+        filtered_ports = [80, 8080, 8880, 2052, 2082, 2086, 2095, 443, 2053, 2083, 2087, 2096, 8443]
+        return port in filtered_ports
+
     for node in parsed_nodes:
+        # 过滤纯IP节点
+        if is_ip_address(node.server):
+            continue
+        # 过滤Cloudflare http/https端口节点
+        if is_cloudflare_http_node(node):
+            continue
+        # 过滤指定端口的节点
+        if is_filtered_port(node.port):
+            continue
         key_tuple = (
             node.protocol,
             node.server,
