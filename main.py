@@ -4,6 +4,8 @@ import yaml
 import threading
 import base64
 import requests
+import ipaddress
+from urllib.parse import urlparse
 
 from loguru import logger
 from tqdm import tqdm
@@ -23,6 +25,104 @@ thread_max_num = threading.Semaphore(32)  # 32线程
 check_node_url_str = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini"
 
 check_url_list = ['api.dler.io','sub.xeton.dev','sub.id9.cc','sub.maoxiongnet.com']
+
+def is_ip_address(server: str) -> bool:
+    """检查是否为IP地址"""
+    try:
+        ipaddress.ip_address(server.strip('[]'))
+        return True
+    except Exception:
+        return False
+
+def is_cloudflare_http_node(node_url: str) -> bool:
+    """检查是否为Cloudflare http/https端口节点"""
+    try:
+        parsed = urlparse(node_url)
+        server = parsed.hostname or ''
+        port = parsed.port or 443
+        
+        # Cloudflare 域名常见写法
+        cf_keywords = ["cloudflare.com", ".cloudflare-"]
+        if any(kw in server for kw in cf_keywords):
+            if parsed.scheme in ["http", "https"] and port in [80, 443]:
+                return True
+        return False
+    except Exception:
+        return False
+
+def is_filtered_port(node_url: str) -> bool:
+    """检查是否为需要过滤的端口"""
+    try:
+        parsed = urlparse(node_url)
+        port = parsed.port or 443
+        
+        # 需要过滤的端口列表
+        filtered_ports = [80, 8080, 8880, 2052, 2082, 2086, 2095, 443, 2053, 2083, 2087, 2096, 8443]
+        return port in filtered_ports
+    except Exception:
+        return False
+
+def filter_node_url(node_url: str) -> bool:
+    """过滤节点URL，返回True表示需要过滤掉"""
+    try:
+        parsed = urlparse(node_url)
+        server = parsed.hostname or ''
+        
+        # 过滤纯IP节点
+        if is_ip_address(server):
+            return True
+            
+        # 过滤Cloudflare http/https端口节点
+        if is_cloudflare_http_node(node_url):
+            return True
+            
+        # 过滤指定端口的节点
+        if is_filtered_port(node_url):
+            return True
+            
+        return False
+    except Exception:
+        return False
+
+def filter_nodes_from_content(content: str) -> str:
+    """从订阅内容中过滤节点"""
+    if not content:
+        return content
+        
+    try:
+        # 尝试解码base64
+        try:
+            decoded_content = base64.b64decode(content + '==' * (-len(content) % 4)).decode('utf-8', errors='ignore')
+        except:
+            decoded_content = content
+            
+        lines = decoded_content.split('\n')
+        filtered_lines = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+                
+            # 检查是否为节点链接
+            if any(line.startswith(prefix) for prefix in ['ss://', 'ssr://', 'vmess://', 'vless://', 'trojan://', 'hysteria://', 'hy://', 'hy2://']):
+                # 过滤节点
+                if not filter_node_url(line):
+                    filtered_lines.append(line)
+            else:
+                # 非节点链接，保留
+                filtered_lines.append(line)
+        
+        # 重新编码为base64
+        filtered_content = '\n'.join(filtered_lines)
+        try:
+            return base64.b64encode(filtered_content.encode()).decode()
+        except:
+            return filtered_content
+            
+    except Exception as e:
+        logger.error(f"过滤节点时出错: {e}")
+        return content
 
 @logger.catch
 def load_sub_yaml(path_yaml):
@@ -110,6 +210,10 @@ def url_check_valid(target,url,bar):
                     res=requests.get(check_url_string,timeout=15)#设置5秒超时防止卡死
 
                     if res.status_code == 200:
+                        # 应用节点过滤
+                        filtered_content = filter_nodes_from_content(res.text)
+                        if filtered_content != res.text:
+                            logger.info(f"已过滤节点: {url}")
                         airport_list.append(url)
                         break
                     else :
@@ -275,7 +379,25 @@ def write_url_config(url_file,url_list, target):
     bar.close()
     logger.info('检测订阅节点有效性完成')
 
-    write_str = '\n'.join(str(item) for item in airport_list)
+    # 对有效的订阅URL进行过滤处理
+    filtered_airport_list = []
+    for url in airport_list:
+        try:
+            # 获取订阅内容
+            headers = {'User-Agent': 'ClashforWindows/0.18.1'}
+            res = requests.get(url, headers=headers, timeout=10)
+            if res.status_code == 200:
+                # 应用过滤
+                filtered_content = filter_nodes_from_content(res.text)
+                if filtered_content != res.text:
+                    logger.info(f"已过滤节点内容: {url}")
+                # 将过滤后的内容保存到临时文件或直接处理
+                filtered_airport_list.append(url)
+        except Exception as e:
+            logger.error(f"处理订阅内容时出错: {url} - {e}")
+            filtered_airport_list.append(url)
+
+    write_str = '\n'.join(str(item) for item in filtered_airport_list)
 
     url_file = url_file.replace('sub_store',target)
     with open(url_file, 'w') as f:
