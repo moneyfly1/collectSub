@@ -52,7 +52,9 @@ jobs:
    #     python ./sub.py
     - name: 拉取远程最新代码
       run: |
-        git pull origin main --rebase
+        git reset --hard HEAD
+        git clean -fd
+        git pull origin main --rebase || true
 
     - name: Commit
       run: |

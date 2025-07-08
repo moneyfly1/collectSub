@@ -43,6 +43,11 @@ jobs:
     - name: 安装依赖
       run: |
         pip install -r ./requirements.txt
+    - name: 拉取远程最新代码
+      run: |
+        git reset --hard HEAD
+        git clean -fd
+        git pull origin main --rebase || true
     - name: 执行任务
       run: |
         python ./main.py
