@@ -4,7 +4,8 @@ import re
 import yaml
 import os
 import base64
-from urllib.parse import quote
+import ipaddress
+from urllib.parse import quote, urlparse
 from tqdm import tqdm
 from loguru import logger
 import json
@@ -14,6 +15,96 @@ RE_URL = r"https?://[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]"
 CHECK_NODE_URL_STR = "https://{}/sub?target={}&url={}&insert=false&config=config%2FACL4SSR.ini"
 CHECK_URL_LIST = ['api.dler.io', 'sub.xeton.dev', 'sub.id9.cc', 'sub.maoxiongnet.com']
 MIN_GB_AVAILABLE = 5 # 最小可用流量，单位 GB
+
+# -------------------------------
+# 节点过滤功能
+# -------------------------------
+def is_ip_address(server: str) -> bool:
+    """检查是否为IP地址"""
+    try:
+        ipaddress.ip_address(server.strip('[]'))
+        return True
+    except Exception:
+        return False
+
+def is_cloudflare_http_node(node_url: str) -> bool:
+    """检查是否为Cloudflare http/https端口节点"""
+    try:
+        parsed = urlparse(node_url)
+        server = parsed.hostname or ''
+        port = parsed.port or 443
+        
+        # Cloudflare 域名常见写法
+        cf_keywords = ["cloudflare.com", ".cloudflare-"]
+        if any(kw in server for kw in cf_keywords):
+            if parsed.scheme in ["http", "https"] and port in [80, 443]:
+                return True
+        return False
+    except Exception:
+        return False
+
+def is_filtered_port(node_url: str) -> bool:
+    """检查是否为需要过滤的端口"""
+    try:
+        parsed = urlparse(node_url)
+        port = parsed.port or 443
+        
+        # 需要过滤的端口列表
+        filtered_ports = [80, 8080, 8880, 2052, 2082, 2086, 2095, 443, 2053, 2083, 2087, 2096, 8443]
+        return port in filtered_ports
+    except Exception:
+        return False
+
+def filter_node_url(node_url: str) -> bool:
+    """过滤节点URL，返回True表示需要过滤掉"""
+    try:
+        parsed = urlparse(node_url)
+        server = parsed.hostname or ''
+        
+        # 过滤纯IP节点
+        if is_ip_address(server):
+            return True
+            
+        # 过滤Cloudflare http/https端口节点
+        if is_cloudflare_http_node(node_url):
+            return True
+            
+        # 过滤指定端口的节点
+        if is_filtered_port(node_url):
+            return True
+            
+        return False
+    except Exception:
+        return False
+
+def filter_nodes_from_content(content: str) -> str:
+    """从订阅内容中过滤节点"""
+    if not content:
+        return content
+        
+    try:
+        lines = content.split('\n')
+        filtered_lines = []
+        
+        for line in lines:
+            line = line.strip()
+            if not line:
+                continue
+                
+            # 检查是否为节点链接
+            if any(line.startswith(prefix) for prefix in ['ss://', 'ssr://', 'vmess://', 'vless://', 'trojan://', 'hysteria://', 'hy://', 'hy2://']):
+                # 过滤节点
+                if not filter_node_url(line):
+                    filtered_lines.append(line)
+            else:
+                # 非节点链接，保留
+                filtered_lines.append(line)
+        
+        return '\n'.join(filtered_lines)
+            
+    except Exception as e:
+        logger.error(f"过滤节点时出错: {e}")
+        return content
 
 # -------------------------------
 # 配置文件操作 (保持不变)
@@ -196,74 +287,46 @@ def decode_and_extract_nodes(sub_type, content):
     if not content:
         return nodes
 
+    # 应用节点过滤
+    filtered_content = filter_nodes_from_content(content)
+    if filtered_content != content:
+        logger.info(f"已过滤节点内容，类型: {sub_type}")
+
     # 定义所有支持的代理协议模式，添加 'hysteria://' 和 'hysteria2://'，并将 'hy://' 视为 'hysteria://' 的别名
     proxy_patterns = (
-        r"(ss://[^\\n\s<\"']+|"      # ss://
-        r"ssr://[^\\n\s<\"']+|"     # ssr://
-        r"vmess://(?:[A-Za-z0-9+/=]+|\w+:\w+@[^\\n\s<\"']+)|" # vmess:// (可以是base64或直接链接)
-        r"vless://[^\\n\s<\"']+|"    # vless://
-        r"trojan://[^\\n\s<\"']+|"   # trojan://
-        r"hysteria://[^\\n\s<\"']+|" # hysteria://
-        r"hysteria2://[^\\n\s<\"']+|" # hysteria2://
-        r"hy://[^\\n\s<\"']+|"       # hy:// (作为 hysteria:// 的别名)
-        r"tuic://[^\\n\s<\"']+"      # tuic://
-        r")"
+        r'ss://[A-Za-z0-9+/=]+',
+        r'ssr://[A-Za-z0-9+/=]+',
+        r'vmess://[A-Za-z0-9+/=]+',
+        r'vless://[A-Za-z0-9+/=]+',
+        r'trojan://[A-Za-z0-9+/=]+',
+        r'hysteria://[A-Za-z0-9+/=]+',
+        r'hy://[A-Za-z0-9+/=]+',
+        r'hysteria2://[A-Za-z0-9+/=]+'
     )
 
-    try:
-        if sub_type == "clash订阅":
-            try:
-                clash_config = yaml.safe_load(content)
-                if clash_config and 'proxies' in clash_config:
-                    for proxy in clash_config['proxies']:
-                        # 尝试将 Clash proxy 字典转换为标准链接格式
-                        node_link = convert_clash_proxy_to_url(proxy)
-                        if node_link:
-                            nodes.append(node_link)
-                        else:
-                            # 如果无法转换为标准链接，丢弃该节点
-                            pass
-            except yaml.YAMLError as e:
-                logger.warning(f"无法解析 Clash 订阅内容为 YAML: {e}")
-            except Exception as e:
-                logger.warning(f"处理 Clash 代理时发生错误: {e}")
+    # 使用过滤后的内容
+    content_to_process = filtered_content
 
-        else: # 对于机场订阅, v2订阅, 未知订阅，直接从内容中提取链接
-            # 清理内容中的HTML实体和多余的字符
-            cleaned_content = content.replace('&', '&').replace('<', '<').replace('>', '>').replace('"', '"')
-            
-            # 尝试 Base64 解码，因为很多订阅是 Base64 编码的链接列表
-            try:
-                # 再次清理，确保只有 Base64 字符
-                b64_char_cleaned_content = "".join(char for char in cleaned_content if char.isalnum() or char in "+/=\n")
-                decoded_text = base64.b64decode(b64_char_cleaned_content.encode('ascii')).decode('utf-8', errors='ignore')
-                # 将 hy:// 替换为 hysteria:// 以统一格式
-                decoded_text = decoded_text.replace('hy://', 'hysteria://')
-                # 尝试从解码后的文本中提取链接
-                nodes.extend(re.findall(proxy_patterns, decoded_text))
-            except (base64.binascii.Error, UnicodeDecodeError, ValueError) as e:
-                logger.debug(f"尝试 Base64 解码内容失败，直接从原始内容中提取: {e}")
-                # 如果解码失败，直接从原始清理后的内容中提取链接
-                cleaned_content = cleaned_content.replace('hy://', 'hysteria://')
-                nodes.extend(re.findall(proxy_patterns, cleaned_content))
-                
-    except Exception as e:
-        logger.error(f"解码和提取节点失败 ({sub_type}): {e}")
-    
-    # 进一步清理提取到的节点，去除任何可能残留的 HTML 或不完整部分
-    final_nodes = []
-    for node in nodes:
-        # 移除行尾可能存在的 HTML 标签或不完整字符
-        cleaned_node = re.sub(r'[\s<"\'&].*$', '', node) 
-        # 统一将 hy:// 替换为 hysteria://
-        cleaned_node = cleaned_node.replace('hy://', 'hysteria://')
-        # 确保链接以支持的协议开头且不包含多余内容
-        if re.match(proxy_patterns, cleaned_node):
-            final_nodes.append(cleaned_node)
-        else:
-            logger.debug(f"过滤掉无效节点格式：{node}")
+    # 对于 Clash 配置，需要特殊处理
+    if sub_type == "clash订阅" and "proxies:" in content_to_process:
+        try:
+            clash_config = yaml.safe_load(content_to_process)
+            if clash_config and "proxies" in clash_config:
+                for proxy in clash_config["proxies"]:
+                    node_url = convert_clash_proxy_to_url(proxy)
+                    if node_url and not filter_node_url(node_url):  # 再次过滤转换后的节点
+                        nodes.append(node_url)
+        except yaml.YAMLError as e:
+            logger.warning(f"解析 Clash 配置失败: {e}")
+    else:
+        # 对于其他类型的订阅，直接提取代理链接
+        for pattern in proxy_patterns:
+            found_nodes = re.findall(pattern, content_to_process, re.IGNORECASE)
+            for node in found_nodes:
+                if not filter_node_url(node):  # 过滤节点
+                    nodes.append(node)
 
-    return final_nodes
+    return list(set(nodes))  # 去重
 
 def convert_clash_proxy_to_url(proxy_dict):
     """
@@ -455,7 +518,16 @@ async def main():
         write_url_list(sorted(list(all_decoded_nodes)), all_nodes_file)
         logger.info(f"所有解码并合并后的节点已保存至 {all_nodes_file}，共 {len(all_decoded_nodes)} 个节点。")
 
-        # 批量检测各类订阅的节点有效性并写入文件（保持原有逻辑，因为这里的“节点”是订阅链接本身）
+        # 输出过滤统计信息
+        print("\n--- 节点过滤统计 ---")
+        print(f"✅ 过滤后的有效节点数量: {len(all_decoded_nodes)}")
+        print("🔍 过滤规则:")
+        print("   - 纯IP节点 (IPv4/IPv6)")
+        print("   - Cloudflare http/https端口节点")
+        print("   - 指定端口节点 (80, 8080, 8880, 2052, 2082, 2086, 2095, 443, 2053, 2083, 2087, 2096, 8443)")
+        print("✅ 只保留高质量域名节点")
+
+        # 批量检测各类订阅的节点有效性并写入文件（保持原有逻辑，因为这里的"节点"是订阅链接本身）
         subscription_targets = {
             "机场订阅": {"urls": subs, "target": "loon", "file_suffix": "_loon.txt"},
             "clash订阅": {"urls": clash, "target": "clash", "file_suffix": "_clash.txt"},
