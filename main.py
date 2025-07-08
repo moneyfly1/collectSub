@@ -26,6 +26,10 @@ check_node_url_str = "https://{}/sub?target={}&url={}&insert=false&config=config
 
 check_url_list = ['api.dler.io','sub.xeton.dev','sub.id9.cc','sub.maoxiongnet.com']
 
+# 节点过滤工具函数
+import ipaddress
+from urllib.parse import urlparse
+
 def is_ip_address(server: str) -> bool:
     """检查是否为IP地址"""
     try:
