@@ -133,6 +133,7 @@ jobs:
           TOTAL_NODES=$(wc -l output/all_nodes_*.txt | tail -n 1 | awk '{print $1}')
           STRICT_MODE=$([[ "${{ github.event.inputs.strict_dedup || 'true' }}" == "true" ]] && echo "严格" || echo "宽松")
           git commit -m "更新节点列表：$TOTAL_NODES 个节点（$STRICT_MODE 去重模式）[skip ci]"
+          git pull --rebase origin main || true
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
