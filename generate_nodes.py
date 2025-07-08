@@ -519,10 +519,11 @@ def main():
             f.write(f"{node}\n")
     logger.info(f"已自动输出过滤后节点到 {merged_nodes_path}，共 {len(all_nodes)} 条")
 
-    # 新增：自动输出 all.yaml，内容为所有过滤后的节点（YAML格式，节点列表）
-    with open("all.yaml", "w", encoding="utf-8") as f:
-        yaml.dump(all_nodes, f, allow_unicode=True)
-    logger.info(f"已自动输出所有节点到 all.yaml，节点总数：{len(all_nodes)}")
+    # 新增：自动输出 all.txt，内容为所有过滤后的节点（每行一个节点，纯文本）
+    with open("all.txt", "w", encoding="utf-8") as f:
+        for node in all_nodes:
+            f.write(f"{node}\n")
+    logger.info(f"已自动输出所有节点到 all.txt，节点总数：{len(all_nodes)}")
 
 if __name__ == '__main__':
     main()
