@@ -499,5 +499,12 @@ def main():
     output_directory = os.path.dirname(args.output_prefix) or "."
     logger.info(f"\n所有生成的节点文件已保存到目录: {os.path.abspath(output_directory)}")
 
+    # 新增：自动输出 config_all_merged_nodes.txt，内容为所有过滤后的节点
+    merged_nodes_path = "config_all_merged_nodes.txt"
+    with open(merged_nodes_path, "w", encoding="utf-8") as f:
+        for node in all_nodes:
+            f.write(f"{node}\n")
+    logger.info(f"已自动输出过滤后节点到 {merged_nodes_path}，共 {len(all_nodes)} 条")
+
 if __name__ == '__main__':
     main()
