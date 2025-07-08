@@ -1,4 +1,4 @@
-#https://github.com/mariahlamb/proxy-sub
+
 name: generate_nodes
 
 on:
@@ -86,6 +86,10 @@ jobs:
         env:
           PYTHONUNBUFFERED: 1 # 确保日志实时输出
 
+      - name: 合并并 base64 编码所有节点到 all.txt
+        run: |
+          cat output/all_nodes_*.txt | base64 > output/all.txt
+
       - name: 验证输出文件
         run: |
           shopt -s nullglob
@@ -126,6 +130,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add output/all_nodes_*.txt
+          git add output/all.txt
           if git diff --quiet --staged; then
             echo "无更改需要提交"
             exit 0
