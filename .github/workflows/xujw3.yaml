@@ -48,16 +48,20 @@ jobs:
    #     APIURL: ${{ secrets.APIURL }}
    #   run: |
    #     python ./sub.py
+    - name: 拉取远程最新代码
+      run: |
+        git pull origin main --rebase
+
     - name: Commit
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
+        git add .
+        git commit -m "🍀 爬取订阅源 $(date '+%Y-%m-%d %H:%M:%S')" || echo "Nothing to commit"
+        git pull origin main --rebase
 
-        git add .   #这是pre_check.py定义的输出路径
-        git commit -m "🍀 爬取订阅源 $(date '+%Y-%m-%d %H:%M:%S')"
-        
     - name: 推送更改
-      uses:  ad-m/github-push-action@master
+      uses: ad-m/github-push-action@master
       with:
          # github_token: ${{ secrets.TOKEN }}
          branch: main
