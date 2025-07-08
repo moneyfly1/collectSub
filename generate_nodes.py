@@ -511,11 +511,12 @@ def main():
     output_directory = os.path.dirname(args.output_prefix) or "."
     logger.info(f"\n所有生成的节点文件已保存到目录: {os.path.abspath(output_directory)}")
 
-    # 新增：自动输出 all.txt，内容为所有过滤后的节点（每行一个节点，纯文本）
-    with open("all.txt", "w", encoding="utf-8") as f:
+    # 新增：自动输出 output/all.txt，内容为所有过滤后的节点（每行一个节点，纯文本）
+    all_txt_path = os.path.join(output_directory, "all.txt")
+    with open(all_txt_path, "w", encoding="utf-8") as f:
         for node in all_nodes:
             f.write(f"{node}\n")
-    logger.info(f"已自动输出所有节点到 all.txt，节点总数：{len(all_nodes)}")
+    logger.info(f"已自动输出所有节点到 {all_txt_path}，节点总数：{len(all_nodes)}")
 
 if __name__ == '__main__':
     main()
