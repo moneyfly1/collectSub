@@ -1,8 +1,8 @@
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTplMDY1YmJmMC03ZTdmLTQ2N2EtOWFlNS0wNDM1ZWU3MDlkYmI@cokecloudjp.cokecloud.top:17318#US.%E7%BE%8E%E5%9B%BD.C%20%7C%20%E9%AB%98%E9%80%9F.2x%E5%80%8D%E7%8E%87
-vless://d4e16da9-8bbb-473f-abba-5ccfd73f4d51@tunel-finland.katolvpn.sbs:2020?headerType=http&host=fast.com&path=/&security=none&type=tcp#4Nika-13868
-trojan://b17ea1b5-7c9a-4d2c-958e-4db6f6346720@aafrtpfxr.twl01i9zjfegelp.5xfsur8v62.gosdk.xyz:27201?sni=q08m.vgraxiw73s.hasyaf.cn&fp=chrome#%F0%9F%87%B9%F0%9F%87%BC%E5%8F%B0%E6%B9%BE2%20%7C%20%E2%AC%87%EF%B8%8F%201.2MB%2Fs%20%7C0%25%7CNetflix%7CDisney%7CYoutube%7COpenai
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZThmMjliYi01ZDI1LTQ2YjMtOWFkZC0zMmYyNzczODllODE@e4d7a1c2f3b80976a5e2c1d4b3f0a987.1kmei.com:23122#%E5%8A%A0%E6%8B%BF%E5%A4%A71
-ss://YWVzLTI1Ni1nY206MGY0YzVhMDktYTNjZC0zZWE5LTgyNDktYjcyYmNlZmRjODll@qyev2-g04.jp03-ae5.entry.v50307shvkaa.art:490#JP+IKUUU+15
-ss://MjAyMi1ibGFrZTMtYWVzLTEyOC1nY206TWpkbFptWTRZV0l5WkRVME9HTmtOdz09Ok5XWTNZbVppWVRVdE5qQTNZeTAwWXc9PQ@cyusd123.qeayr.cn:14797#%F0%9F%87%A6%F0%9F%87%B6Antarctica%2001
-vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlJlbGF5X/Cfh6jwn4ezQ04t8J+HqPCfh7NDTl8yMDEiLA0KICAiYWRkIjogIm5tdG93LmhqZGZnaGZjLmFzaWEiLA0KICAicG9ydCI6ICIxOTMzMSIsDQogICJpZCI6ICJiNTY2YThiZi04YjMzLTQ3ZmMtYTM2MS1lMTBmOTYwNTZjZmYiLA0KICAiYWlkIjogIjAiLA0KICAic2N5IjogImF1dG8iLA0KICAibmV0IjogIndzIiwNCiAgInR5cGUiOiAibm9uZSIsDQogICJob3N0IjogImZpbGUuZGluZ3RhbGsuY29tIiwNCiAgInBhdGgiOiAiL21hcmtldD9lZD01MTIiLA0KICAidGxzIjogIiIsDQogICJzbmkiOiAiIg0KfQ==
-ss://YWVzLTI1Ni1nY206QkMxTUhPNUk1UTdFRjlQWg==@ti3hyra4.slashdevslashnetslashtun.net:16001#%F0%9F%87%B8%F0%9F%87%AC%20SG-01
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZThmMjliYi01ZDI1LTQ2YjMtOWFkZC0zMmYyNzczODllODE@e4d7a1c2f3b80976a5e2c1d4b3f0a987.1kmei.com:23158#%E9%98%BF%E8%81%94%E9%85%8B2
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNzgxMDcwMi04ZmQxLTRkZjYtYTA2MC03OWU4NDBhN2I2NTI@zhuanfayyds.xn--pssq69d.xyz:64163#4FreeIran-682
+trojan://e2d4ffbd-d0fa-4074-b844-9e8b4e34cd4c@relay002.xiaoniuyun.cc:38015?allowInsecure=0&sni=pl001.xiaoniuyun.cc#%e6%b3%a2%e5%85%b01-%e4%b8%93%e7%ba%bf2+%5btrojan%5d+%5bChatGpt%2cNetflix%2cTikTok%5d
+vmess://eyJ2IjoiMiIsInBzIjoi8J+HrvCfh7PljbDluqYxIHwg4qyH77iPIDQuMU1CL3MiLCJhZGQiOiJoYWEuZGFzaHVhaS5jeW91IiwicG9ydCI6NDUwNzQsImlkIjoiZDYzOTc1OGMtYjAwZC00YjQzLWJkM2YtNzg2NDNlZTAwOTNhIiwidHlwZSI6IiIsImFpZCI6MCwibmV0IjoidGNwIiwidGxzIjoiIn0=
+vmess://eyJhZGQiOiAianAwMy1hbHQtdm0wLmVudHJ5LnNydGhkdy5hcnQiLCAiYWlkIjogMSwgImlkIjogIjFiYzUyMzA4LTBiZDktMzBkMC05MGZkLWNlZjMzNzg3NWQxMCIsICJuZXQiOiAidGNwIiwgInBvcnQiOiAyMTU4NSwgInBzIjogIjRGcmVlSXJhbi0yMDM3OSIsICJzY3kiOiAiYXV0byIsICJ0bHMiOiAidGxzIiwgInYiOiAiMiJ9
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3OTo5OTo3ODpENDo5OTozMTpDMzpBQzowQjo2QzoxMTo2RDo1RjoxQjpBODpBNTo3RjowODowODoyODowMjozQzpDODo5NToyNjo2Mzo5QTpCMDozQjoxODo2MjozNQ==@fr.fastsoonlink.com:40034#فرانسه 🇫🇷 @V2xay
+vless://459b4a80-bd61-4ecd-a26b-e9c1809d9e45@agaungzhou01.bumbleshrimp.com:46716?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.nvidia.com&fp=chrome&pbk=qhTzYYIgBzDLNYR79oxftqdo1kzL-1_hGJKfqrOliCY&type=tcp&headerType=none#HK
+vless://a4671bf1-1542-49ef-a9b6-3f533c3f8b11@all97-vip.f-sub.com:1517?security=none&encryption=none&host=varzesh3.com&headerType=http&type=tcp#4FreeIran-12028
