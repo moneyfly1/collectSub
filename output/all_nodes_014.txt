@@ -1,8 +1,11 @@
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo0ZThmMjliYi01ZDI1LTQ2YjMtOWFkZC0zMmYyNzczODllODE@e4d7a1c2f3b80976a5e2c1d4b3f0a987.1kmei.com:23158#%E9%98%BF%E8%81%94%E9%85%8B2
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTphNzgxMDcwMi04ZmQxLTRkZjYtYTA2MC03OWU4NDBhN2I2NTI@zhuanfayyds.xn--pssq69d.xyz:64163#4FreeIran-682
-trojan://e2d4ffbd-d0fa-4074-b844-9e8b4e34cd4c@relay002.xiaoniuyun.cc:38015?allowInsecure=0&sni=pl001.xiaoniuyun.cc#%e6%b3%a2%e5%85%b01-%e4%b8%93%e7%ba%bf2+%5btrojan%5d+%5bChatGpt%2cNetflix%2cTikTok%5d
-vmess://eyJ2IjoiMiIsInBzIjoi8J+HrvCfh7PljbDluqYxIHwg4qyH77iPIDQuMU1CL3MiLCJhZGQiOiJoYWEuZGFzaHVhaS5jeW91IiwicG9ydCI6NDUwNzQsImlkIjoiZDYzOTc1OGMtYjAwZC00YjQzLWJkM2YtNzg2NDNlZTAwOTNhIiwidHlwZSI6IiIsImFpZCI6MCwibmV0IjoidGNwIiwidGxzIjoiIn0=
-vmess://eyJhZGQiOiAianAwMy1hbHQtdm0wLmVudHJ5LnNydGhkdy5hcnQiLCAiYWlkIjogMSwgImlkIjogIjFiYzUyMzA4LTBiZDktMzBkMC05MGZkLWNlZjMzNzg3NWQxMCIsICJuZXQiOiAidGNwIiwgInBvcnQiOiAyMTU4NSwgInBzIjogIjRGcmVlSXJhbi0yMDM3OSIsICJzY3kiOiAiYXV0byIsICJ0bHMiOiAidGxzIiwgInYiOiAiMiJ9
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo3OTo5OTo3ODpENDo5OTozMTpDMzpBQzowQjo2QzoxMTo2RDo1RjoxQjpBODpBNTo3RjowODowODoyODowMjozQzpDODo5NToyNjo2Mzo5QTpCMDozQjoxODo2MjozNQ==@fr.fastsoonlink.com:40034#فرانسه 🇫🇷 @V2xay
-vless://459b4a80-bd61-4ecd-a26b-e9c1809d9e45@agaungzhou01.bumbleshrimp.com:46716?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.nvidia.com&fp=chrome&pbk=qhTzYYIgBzDLNYR79oxftqdo1kzL-1_hGJKfqrOliCY&type=tcp&headerType=none#HK
-vless://a4671bf1-1542-49ef-a9b6-3f533c3f8b11@all97-vip.f-sub.com:1517?security=none&encryption=none&host=varzesh3.com&headerType=http&type=tcp#4FreeIran-12028
+vless://ed655843-9ec6-46ef-acba-b15fbfa87b32@v2test.bing-net.com:9820?security=none&encryption=none&host=varzesh3.com&headerType=http&type=tcp#4Nika-15072
+trojan://fe0b59ec-6af0-45db-9509-4c66b464af2e@R1.tube-cat.com:9450?allowInsecure=1&peer=kr.catxstar.com&sni=kr.catxstar.com#%F0%9F%87%B0%F0%9F%87%B7%7C%E9%9F%A9%E5%9B%BD-%E4%B8%AD%E8%BD%AC%2002
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTplYjc5YzRmYS1iYWY5LTQ1NmMtOTE2My02N2Q5ZDNjZjZhYjU@sg1.dianxinzf.one:47532#%F0%9F%87%A6%F0%9F%87%AA%20%E8%BF%AA%E6%8B%9C
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpFWndpZ0I@t3w5r6a5b6-fb-tw05.6pzfwf.com:56025#%5bSS%5d+Taiwan-05
+vmess://eyJ2IjoiMiIsInBzIjoiXHU4MmYxXHU1NmZkXHU5YWQ4XHU5MDFmeDEiLCJhZGQiOiJiZWl5b25nLS41OTY3NDM5NDQudG9wIiwicG9ydCI6IjU2NzcxIiwiaWQiOiI3ZGJkYmExOS02YTNiLTQzNzAtOTNiMS1mYjVhODlhZGRlMGMiLCJhaWQiOiIwIiwibmV0IjoidGNwIiwidHlwZSI6Im5vbmUiLCJob3N0IjoiIiwicGF0aCI6IiIsInRscyI6IiJ9
+vless://fc9a44d9-d786-47c6-9127-258d5ee18f4e@android.pakasak.com:2025?security=none&encryption=none&host=zula.ir&headerType=http&type=tcp#4Nika-15927
+trojan://944f2a84-5812-460e-88f7-7e3ff476834e@f10011.flyflylflyflysbs.sbs:47497?type=tcp&sni=id01.ckcloud.info&allowInsecure=1#%E5%8D%B0%E5%BA%A601%E3%80%90vip2%E3%80%91
+vless://4FuseVPN----------ProxyPJ@pj.bestirstorei.top:62000?mode=gun&security=reality&encryption=none&pbk=BiugAGWpcH4kTwIsUDeRh83FPxapxYfLuh4Gpi1Qb3s&fp=chrome&spx=/&type=grpc&serviceName=32135vless&sni=journalofbigdata.springeropen.com&sid=116440bf#4Nika-8006
+trojan://fe0b59ec-6af0-45db-9509-4c66b464af2e@d1.catcat321.com:43783?allowInsecure=1&peer=iepl.jphq2.cat.bilibili.com&sni=iepl.jphq2.cat.bilibili.com#%F0%9F%87%AF%F0%9F%87%B5%7C%E6%97%A5%E6%9C%AC%E5%8E%9F%E7%94%9F-IEPL%2002
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkYmJhNGRjYi1kYjBjLTQ0MTUtYTZkMy1kNzJhOTMyMDZmNWI@mg-jd.huidu51.com:46621#%F0%9F%87%BA%F0%9F%87%B8%20%20%20USA%2021
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNToxM2U3ZjZmOC00ZWMyLTQwNjAtYTFiMi1lNzhlYmE4MzVhYjI@xcsgp.cokecloud.top:17463#VN.%E8%B6%8A%E5%8D%97.A
