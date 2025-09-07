@@ -1,21 +1,4 @@
-ss://YWVzLTEyOC1nY206MDE3MjFlNDMtNTM4OS00Zjk3LWIyMWMtOTAwYWJiMmJkYTll@awes35lesl.blhao0o.dpdns.org:12014#%f0%9f%87%af%f0%9f%87%b5+%e6%97%a5%e6%9c%ac_%e5%8e%9f%e7%a5%9e%e4%b8%93%e7%ba%bf_%e8%8d%89%e7%a5%9e%e7%9a%84%e8%9e%ba%e6%97%8b%e9%99%80%e8%9e%ba%e5%bf%ab%e5%87%86%e7%8b%a0%e7%b2%89%e9%b8%a1%e9%b8%a1
-trojan://253bc477d4e43c209f2d427272968280@xingxing.jiasu123.org:13345/?type=tcp&security=tls&sni=23.45.86.28&allowInsecure=1#%E6%97%A5%E6%9C%AC3%7C%40ripaojiedian
-vless://2763f062-23b0-4de0-a73c-c598153edec6@gr.dnszone.top:45500?encryption=none&security=none&type=tcp&headerType=none#%f0%9f%87%a9%f0%9f%87%aa%7cDE%7c%e3%80%90ccbaohe.com%e3%80%91%e5%85%8d%e8%b4%b9%e8%b5%84%e6%ba%90%e5%af%bc%e8%88%aa%7c192
-ss://YWVzLTEyOC1nY206N2FmMjZlYWUtNjNjNy00M2M4LWIzMzUtZTM1MjhmNzkwNDU5@golayerto-h.standlink.pro:573#HKG%20N
-vmess://eyJ2IjoiMiIsInBzIjoi576O5Zu9IC0gSUVQTCAtIFYycmF5IC0gMDEiLCJhZGQiOiJ2bXdzLXVzLmh1dGFvbm9kZTUudG9wIiwicG9ydCI6IjEyMjMxIiwiaWQiOiIxNTlmYzdlOS1kZmRmLTNiZmYtOTQzMC1lYjE5M2UzMmJkZDkiLCJhaWQiOiIwIiwibmV0Ijoid3MiLCJ0eXBlIjoibm9uZSIsImhvc3QiOiJiaWxpYmlsaS5jb20iLCJwYXRoIjoiL2FIVjBZVzgiLCJ0bHMiOiIiLCJzbmkiOiJiaWxpYmlsaS5jb20ifQ==
-trojan://498e608a-7efa-4108-97f3-665c0f84f43b@other.binguo.link:10850?security=tls&headerType=none&fp=chrome&type=tcp&sni=alibaba-node.cn#4Mohsen-3276
-vless://adb21e18-c07c-4c3f-a1c0-dff5667bd69c@germosh.babakphotographi.ir:21184?security=none&encryption=none&host=canva.com&headerType=http&type=tcp#4Mohsen-9533
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkZTZmYWVjNi00YmNlLTQ1MzctOWY1My0wYjMxZGJlZWY1NTg@xckr.cokecloud.top:28595#KR.%E9%9F%A9%E5%9B%BD.B%20%7C%20%E9%AB%98%E9%80%9F.2x%E5%80%8D%E7%8E%87
-trojan://0f098bb2-9fad-3cc3-8acf-2a3268c1eb27@hn.xiaohouzi.club:46014?security=tls&sni=hn.xiaohouzi.club#4Mohsen-3022
-trojan://429ad146-8f43-4dd4-8fb3-cca3f3a30c63@sg007.421421.xyz:20230?allowInsecure=1&peer=www.alibaba.com&sni=www.alibaba.com&type=ws#%E6%96%B0%E5%8A%A0%E5%9D%A107%7C%E6%B5%81%E5%AA%92%E4%BD%93
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2ZWM4ZDMzMC0yMWNmLTQ1ZjktYWNkMS1jNzVmZjAwYzYxNTQ@jp01.nfsqttt.cn:11124#%E6%97%A5%E6%9C%AC%7CJP01%7CND
-ss://YWVzLTEyOC1jZmI6MjdqMk9p@tw06.fjk.wtf:45534#台湾 IEPL HiNet A06 Netflix 动画疯
-trojan://5410edf1-8f9f-4f42-9de4-31fb7275a13e@c80c993c-e6d4-548c-88c0-c4893b3d3d4d.blue-bgp.xyz:17104?allowInsecure=1&peer=www.bilibili.com&sni=www.bilibili.com&type=tcp#%E6%96%B0%E5%8A%A0%E5%9D%A1SGP3
-vless://5dc6d3cd-db55-4e93-85c1-9396922e9a45@maznet-join-bede.mahdijamkaran.online:6669?security=none&type=grpc&encryption=none&headerType=none#%E6%A9%98%E5%AD%90%E5%85%AC%E7%9B%8A-%E6%9C%AA%E7%9F%A5-48
-vless://7a3d2e42-3823-4b00-9818-293f7c6742ca@zonex.md.zopli.ir:21275?security=reality&encryption=none&pbk=dNkjYxE5YiKram-ccPm9s8bGwYVakt0M-Y3I8EQKLQ4&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=tradingview.com&sid=e9797abf0202a439#4Mohsen-7984
-ss://YWVzLTI1Ni1nY206MjNjNjBiNWMtNzAyMS00MDk5LTk2M2EtZDIwZTc0YWU5NGFj@deipv6.7t7t.me:20000#%E5%BE%B7%E5%9B%BDIPV6%201x
-vless://11402c34-7f90-485f-a218-ade69f314f49@store-static-portal.cyberscaler.net:10082?security=none&encryption=none&host=cdnjs.cloudflare.com&headerType=http&fp=chrome&type=tcp#4Mohsen-4994
-trojan://253bc477d4e43c209f2d427272968280@xingxing.jiasu123.org:46943?security=tls&sni=23.45.86.28#4Mohsen-3128
-trojan://0f098bb2-9fad-3cc3-8acf-2a3268c1eb27@hn.xiaohouzi.club:18433?security=tls&sni=hn.xiaohouzi.club#4Mohsen-3019
-trojan://2db71c8f-b7d3-4272-b868-2f7c92b395d1@R3.tube-cat.com:9120?allowInsecure=1&peer=hkx1.cat.bilibili.com&sni=hkx1.cat.bilibili.com#%E5%89%A9%E4%BD%99%E6%B5%81%E9%87%8F%EF%BC%9A0
-trojan://LG7HKcZFIJ@sws.ftpcomand.com:110?allowInsecure=1&sni=sws.ftpcomand.com#%f0%9f%87%a8%f0%9f%87%ad+%e7%91%9e%e5%a3%ab+%e8%8b%8f%e9%bb%8e%e4%b8%96
+vless://05a8836c-5737-45cd-8c21-991cfd7b5e6e@Holn.xmonys.com:625?note=---Telegram---@NetifyVPN---Telegram---@NetifyVPN---Telegram---@NetifyVPN---Telegram---@NetifyVPN---&security=none&encryption=none&host=zhaket.com&headerType=http&type=tcp#4Jadi-4715
+ss://YWVzLTI1Ni1nY206MjhiYjJkZjEtNDM2My00OTZlLThkN2ItNmE2MjI4NzNkYzM2@gy.teacat4.xyz:50079#菲律宾
+trojan://64de1de7-e3bb-3dc4-ab04-d1e601e18ac5@hn.xiaohouzi.club:18463?security=tls&sni=$$hn.xiaohouzi.club#4Jadi-3365
+vless://0ed2efd9-5c30-4bb3-985b-4e2bac8bd9f0@NLpizza.kuckenpq.ir:32135?mode=gun&security=reality&encryption=none&pbk=0nV4IrMDDWiuFhntmuTBnQT3Q2uPagsRV1p4KXRnzCk&fp=chrome&type=grpc&serviceName=32135vless&sni=journalofbigdata.springeropen.com&sid=085753500f657097#4Jadi-4878
